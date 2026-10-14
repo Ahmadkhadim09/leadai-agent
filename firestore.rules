@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ==========================================
+    // DEFAULT SECURITY POLICY: DENY ALL
+    // Open test-mode rules ('allow read, write: if true;') are strictly prohibited.
+    // ==========================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ==========================================
+    // AUTHENTICATION & ROLE HELPERS
+    // ==========================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        (
+          'email' in request.auth.token && (
+            request.auth.token.email in [
+              'admin@leadpilot.demo',
+              'alex.chen@leadpilot.demo',
+              'security@leadpilot.demo'
+            ] ||
+            request.auth.token.email.matches('.*admin.*@leadpilot[.]demo$')
+          )
+        )
+      );
+    }
+
+    function isSDR() {
+      return isAuthenticated() && (
+        isAdmin() ||
+        request.auth.token.role == 'sdr' ||
+        (
+          'email' in request.auth.token &&
+          request.auth.token.email.matches('.*@leadpilot[.]demo$')
+        )
+      );
+    }
+
+    // ==========================================
+    // 1. LEADS COLLECTION (/leads/{leadId})
+    // ==========================================
+    match /leads/{leadId} {
+      // Authenticated SDRs and Admins can read lead records
+      allow read: if isSDR();
+
+      // Creating a lead requires basic required fields
+      allow create: if isSDR() &&
+        request.resource.data.keys().hasAll(['id', 'companyName', 'contactEmail', 'stage', 'score']) &&
+        request.resource.data.stage in ['new', 'qualified', 'proposal_sent', 'booked', 'won', 'lost'];
+
+      // Standard SDR updates allowed for notes and facts; stage overrides require admin
+      allow update: if isSDR() && (
+        request.resource.data.stage == resource.data.stage || isAdmin()
+      );
+
+      // Deleting a deal is strictly admin-only
+      allow delete: if isAdmin();
+    }
+
+    // ==========================================
+    // 2. CONVERSATIONS COLLECTION (/conversations/{conversationId})
+    // ==========================================
+    match /conversations/{conversationId} {
+      // SDRs and Admins can view conversation history
+      allow read: if isSDR();
+
+      // Inbound prospects can initiate a conversation turn
+      allow create: if request.resource.data.keys().hasAll(['conversationId', 'messages', 'startedAt']);
+
+      // Appending dialogue turns
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['messages', 'lastMessageAt', 'state']);
+
+      // Only admins can delete transcripts
+      allow delete: if isAdmin();
+    }
+
+    // ==========================================
+    // 3. BOOKINGS COLLECTION (/bookings/{bookingId})
+    // ==========================================
+    match /bookings/{bookingId} {
+      // Authenticated team can read calendar bookings
+      allow read: if isSDR();
+
+      // Inbound prospects can create confirmed bookings
+      allow create: if request.resource.data.keys().hasAll(['bookingId', 'slotId', 'contactEmail', 'startTime', 'status']) &&
+        request.resource.data.status in ['confirmed', 'cancelled', 'completed'];
+
+      // Updates and cancellations require SDR or Admin
+      allow update: if isSDR();
+      allow delete: if isAdmin();
+    }
+
+    // ==========================================
+    // 4. EVALUATION SUITES (/eval_suites/{suiteId})
+    // ==========================================
+    match /eval_suites/{suiteId} {
+      allow read: if isSDR();
+      allow write: if isAdmin();
+    }
+
+    // ==========================================
+    // 5. EVALUATION REPORTS (/eval_reports/{reportId})
+    // ==========================================
+    match /eval_reports/{reportId} {
+      allow read: if isSDR();
+      allow create, update: if isSDR();
+      allow delete: if isAdmin();
+    }
+  }
+}
