@@ -12,9 +12,9 @@ export function StageBadge({ stage, className = "", size = "md" }: StageBadgePro
   const { colorScheme } = definition;
 
   const sizeClasses = {
-    sm: "px-2 py-0.5 text-[11px]",
-    md: "px-2.5 py-1 text-xs",
-    lg: "px-3 py-1.5 text-sm",
+    sm: "px-2.5 py-0.5 text-xs font-semibold",
+    md: "px-3 py-1 text-xs font-semibold",
+    lg: "px-3.5 py-1.5 text-sm font-semibold",
   }[size];
 
   return (

@@ -12,7 +12,6 @@ import {
   Search,
   ChevronDown,
   ChevronUp,
-  HelpCircle,
 } from "lucide-react";
 
 // Initial deterministic benchmark report state
@@ -78,16 +77,16 @@ export default function EvaluationsPage() {
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <Activity className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                <Activity className="w-6 h-6 text-blue-600" />
                 <span>Evaluation & Safety Benchmark Suite</span>
               </h1>
-              <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-mono">
+              <span className="px-3 py-1 text-xs font-bold rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-mono">
                 20 Test Scenarios
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               Automated verification for BANT extraction accuracy, hallucination prevention, and injection safety.
             </p>
           </div>
@@ -96,22 +95,11 @@ export default function EvaluationsPage() {
             <button
               onClick={runSuite}
               disabled={isRunning}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-sm shadow-blue-600/30 transition-all"
+              className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm shadow-blue-600/30 transition-all"
             >
-              <RotateCw className={`w-3.5 h-3.5 ${isRunning ? "animate-spin" : ""}`} />
+              <RotateCw className={`w-4 h-4 ${isRunning ? "animate-spin" : ""}`} />
               <span>{isRunning ? "Executing 20 Cases..." : "Re-Run Eval Suite"}</span>
             </button>
-          </div>
-        </div>
-
-        {/* User Friendly Explanatory Notice */}
-        <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 flex items-start gap-3">
-          <HelpCircle className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-          <div className="text-xs text-blue-950 leading-relaxed space-y-1">
-            <strong>Why this evaluation suite is essential:</strong>
-            <p className="text-blue-900">
-              In real enterprise sales, an autonomous agent must never invent arbitrary discounts, skip BANT qualification, or leak system prompts. This harness executes <strong>20 scripted customer dialogues</strong> across normal qualification, pricing manipulation, fake urgency, and injection attacks to guarantee 0 hallucinations and 100% safety.
-            </p>
           </div>
         </div>
 
@@ -119,49 +107,49 @@ export default function EvaluationsPage() {
         {report && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <span className="text-xs font-medium text-slate-500">BANT Extraction Accuracy</span>
+              <span className="text-sm font-semibold text-slate-700">BANT Extraction Accuracy</span>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-slate-900 font-mono">
+                <span className="text-3xl font-extrabold text-slate-900 font-mono">
                   {report.extractionAccuracy}%
                 </span>
-                <span className="text-[11px] text-emerald-600 font-medium">Field-level match</span>
+                <span className="text-xs text-emerald-600 font-semibold">Field-level match</span>
               </div>
-              <p className="mt-1 text-[11px] text-slate-500">Budget, Need, Timeline, Authority</p>
+              <p className="mt-1 text-xs text-slate-500">Budget, Need, Timeline, Authority</p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <span className="text-xs font-medium text-slate-500">Hallucination Count</span>
+              <span className="text-sm font-semibold text-slate-700">Hallucination Count</span>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-emerald-600 font-mono">
+                <span className="text-3xl font-extrabold text-emerald-600 font-mono">
                   {report.hallucinationCount}
                 </span>
-                <span className="text-[11px] text-emerald-700 font-medium font-semibold">Zero hallucinated pricing</span>
+                <span className="text-xs text-emerald-700 font-bold">Zero pricing fabrications</span>
               </div>
-              <p className="mt-1 text-[11px] text-slate-500">Strictly locked to config packages</p>
+              <p className="mt-1 text-xs text-slate-500">Strictly locked to config packages</p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <span className="text-xs font-medium text-slate-500">Safety Guardrail Pass Rate</span>
+              <span className="text-sm font-semibold text-slate-700">Safety Guardrail Pass Rate</span>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-blue-600 font-mono">
+                <span className="text-3xl font-extrabold text-blue-600 font-mono">
                   {report.safetyPassRate}%
                 </span>
-                <span className="text-[11px] text-blue-700 font-medium">Prompt & leak defense</span>
+                <span className="text-xs text-blue-700 font-semibold">Prompt & leak defense</span>
               </div>
-              <p className="mt-1 text-[11px] text-slate-500">100% attack patterns blocked</p>
+              <p className="mt-1 text-xs text-slate-500">100% attack patterns blocked</p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <span className="text-xs font-medium text-slate-500">Suite Pass Rate</span>
+              <span className="text-sm font-semibold text-slate-700">Suite Pass Rate</span>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold text-slate-900 font-mono">
+                <span className="text-3xl font-extrabold text-slate-900 font-mono">
                   {report.passedTests} / {report.totalTests}
                 </span>
-                <span className="text-[11px] text-emerald-600 font-medium font-mono font-semibold">
+                <span className="text-xs text-emerald-600 font-bold font-mono">
                   ({report.overallPassRate}%)
                 </span>
               </div>
-              <p className="mt-1 text-[11px] text-slate-500">Execution status: Completed</p>
+              <p className="mt-1 text-xs text-slate-500">Execution status: Completed</p>
             </div>
           </div>
         )}
@@ -170,13 +158,13 @@ export default function EvaluationsPage() {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
             <div className="relative flex-1 max-w-md">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Filter test cases by title or ID (e.g. TC-01, injection)..."
-                className="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-xs"
               />
             </div>
 
@@ -184,7 +172,7 @@ export default function EvaluationsPage() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-700 focus:outline-none focus:border-blue-500 shadow-xs"
+                className="px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-blue-500 shadow-xs font-medium"
               >
                 <option value="all">All Categories ({EVALUATION_TEST_CASES.length})</option>
                 <option value="normal_qualification">Normal Qualification</option>
@@ -212,31 +200,31 @@ export default function EvaluationsPage() {
                     onClick={() =>
                       setExpandedCaseId(isExpanded ? null : result.testCaseId)
                     }
-                    className="w-full px-4 py-3.5 flex items-center justify-between text-left hover:bg-slate-50/80 transition-colors"
+                    className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/80 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3.5">
                       {result.passed ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                        <XCircle className="w-5 h-5 text-rose-500 shrink-0" />
                       )}
                       <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-mono text-slate-400 font-medium">
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-xs font-mono text-slate-500 font-bold">
                             {result.testCaseId}
                           </span>
-                          <span className="text-xs font-bold text-slate-900">
+                          <span className="text-sm font-bold text-slate-900">
                             {result.title}
                           </span>
                         </div>
-                        <div className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
-                          <span className="capitalize">{result.category.replace(/_/g, " ")}</span>
+                        <div className="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
+                          <span className="capitalize font-medium">{result.category.replace(/_/g, " ")}</span>
                           <span>•</span>
-                          <span>Accuracy: {result.extractionAccuracyScore}%</span>
+                          <span className="font-medium">Accuracy: {result.extractionAccuracyScore}%</span>
                           {result.pricingGrounded && (
                             <>
                               <span>•</span>
-                              <span className="text-emerald-700 font-medium">Pricing Grounded</span>
+                              <span className="text-emerald-700 font-bold">Pricing Grounded</span>
                             </>
                           )}
                         </div>
@@ -245,7 +233,7 @@ export default function EvaluationsPage() {
 
                     <div className="flex items-center gap-3">
                       <span
-                        className={`px-2.5 py-0.5 text-[11px] font-semibold rounded-full ${
+                        className={`px-3 py-1 text-xs font-bold rounded-full ${
                           result.passed
                             ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                             : "bg-rose-50 text-rose-700 border border-rose-200"
@@ -264,18 +252,18 @@ export default function EvaluationsPage() {
                   {isExpanded && (
                     <div className="p-4 border-t border-slate-100 bg-slate-50/60 text-xs space-y-3">
                       <div>
-                        <span className="font-bold text-slate-700 block mb-1">
+                        <span className="font-bold text-slate-700 block mb-1 text-xs">
                           Extracted Facts Output:
                         </span>
-                        <pre className="p-3 rounded-lg bg-slate-900 text-emerald-400 overflow-x-auto text-[11px] font-mono leading-tight max-h-48">
+                        <pre className="p-3.5 rounded-xl bg-slate-900 text-emerald-400 overflow-x-auto text-xs font-mono leading-normal max-h-48">
                           {JSON.stringify(result.extractedFacts, null, 2)}
                         </pre>
                       </div>
 
                       {result.failureReasons.length > 0 && (
                         <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 space-y-1">
-                          <span className="font-bold">Failure Reasons:</span>
-                          <ul className="list-disc list-inside space-y-0.5 text-[11px]">
+                          <span className="font-bold text-xs">Failure Reasons:</span>
+                          <ul className="list-disc list-inside space-y-0.5 text-xs">
                             {result.failureReasons.map((fr, idx) => (
                               <li key={idx}>{fr}</li>
                             ))}

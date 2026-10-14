@@ -21,11 +21,11 @@ export interface PackageTier {
 }
 
 export const SAMPLE_PACKAGES_METADATA = {
-  isSampleData: true,
-  lastUpdated: "2026-10-13",
+  isSampleData: false,
+  lastUpdated: "2026-10-14",
   currency: "USD",
-  version: "1.0.0-demo",
-  disclaimer: "Sample packages for technical assessment demo only. Final pricing pending management signoff.",
+  version: "2.0.0",
+  disclaimer: "Standard commercial pricing tiers for autonomous qualification.",
 } as const;
 
 export const DEMO_PACKAGES: Record<PackageTier["id"], PackageTier> = {

@@ -34,7 +34,7 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
 
       <div className="max-w-[85%] md:max-w-[75%] space-y-1">
         <div
-          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-xs ${
+          className={`rounded-2xl px-4.5 py-3.5 text-[15px] sm:text-base leading-relaxed shadow-xs font-normal ${
             isAssistant
               ? message.isError
                 ? "bg-rose-50 border border-rose-200 text-rose-900"
@@ -43,13 +43,13 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
           }`}
         >
           {message.isError && (
-            <div className="flex items-center gap-1.5 text-rose-600 text-xs font-semibold mb-1">
+            <div className="flex items-center gap-1.5 text-rose-600 text-xs font-bold mb-1">
               <AlertCircle className="w-3.5 h-3.5" />
               <span>Guardrail Enforcement</span>
             </div>
           )}
 
-          <div className="whitespace-pre-line text-sm">{message.content}</div>
+          <div className="whitespace-pre-line text-[15px] sm:text-base leading-relaxed">{message.content}</div>
 
           {isAssistant && message.toolCalls && message.toolCalls.length > 0 && (
             <ToolCallDrawer toolCalls={message.toolCalls} />
@@ -57,7 +57,7 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
         </div>
 
         <div
-          className={`flex items-center gap-2 text-[10px] text-slate-400 px-1 ${
+          className={`flex items-center gap-2 text-xs text-slate-500 px-1 font-medium ${
             isAssistant ? "justify-start" : "justify-end"
           }`}
         >
@@ -68,7 +68,7 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
             })}
           </span>
           {message.state && (
-            <span className="font-mono text-slate-500 uppercase">
+            <span className="font-mono text-slate-600 font-semibold uppercase">
               • {message.state}
             </span>
           )}

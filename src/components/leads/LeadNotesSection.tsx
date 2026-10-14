@@ -68,7 +68,7 @@ export function LeadNotesSection({ notes, leadId, onAddNote }: LeadNotesSectionP
           <MessageSquarePlus className="w-4 h-4 text-blue-600" />
           <h3 className="font-bold text-slate-900 text-sm">Internal Collaboration & Notes</h3>
         </div>
-        <span className="text-[11px] text-slate-500 font-medium">
+        <span className="text-xs text-slate-500 font-semibold">
           {notes.length} {notes.length === 1 ? "entry" : "entries"}
         </span>
       </div>
@@ -82,49 +82,49 @@ export function LeadNotesSection({ notes, leadId, onAddNote }: LeadNotesSectionP
 
       {/* Note Input Form / Unauthenticated prompt */}
       {!isAuthenticated ? (
-        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs flex items-center justify-between gap-3">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-slate-600">
             <Lock className="w-4 h-4 text-amber-500 shrink-0" />
-            <span>Sign in to collaborate and contribute deal notes.</span>
+            <span className="text-xs">Sign in to collaborate and contribute deal notes.</span>
           </div>
           <button
             type="button"
             onClick={() => setAuthModalOpen(true)}
-            className="px-3 py-1.5 bg-white hover:bg-slate-100 text-blue-700 border border-slate-300 rounded-lg text-xs font-semibold transition-colors shrink-0 shadow-xs"
+            className="px-3.5 py-1.5 bg-white hover:bg-slate-100 text-blue-700 border border-slate-300 rounded-lg text-xs font-bold transition-colors shrink-0 shadow-xs"
           >
             Sign In
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-2.5">
           <textarea
             rows={3}
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Add an internal note or context before the upcoming demo..."
-            className="w-full text-xs p-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 resize-none shadow-xs"
+            className="w-full text-sm p-3.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 resize-none shadow-xs font-normal"
           />
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
-              <User className="w-3.5 h-3.5 text-blue-600" />
+            <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
+              <User className="w-4 h-4 text-blue-600" />
               <span>
                 Posting as:{" "}
-                <strong className="text-slate-800">{user?.displayName || user?.email}</strong>
+                <strong className="text-slate-900 font-semibold">{user?.displayName || user?.email}</strong>
               </span>
             </div>
             <button
               type="submit"
               disabled={isSubmitting || !content.trim()}
-              className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors shadow-xs"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-3 h-3 animate-spin" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
                   <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Send className="w-3 h-3" />
+                  <Send className="w-3.5 h-3.5" />
                   <span>Add Note</span>
                 </>
               )}
@@ -134,7 +134,7 @@ export function LeadNotesSection({ notes, leadId, onAddNote }: LeadNotesSectionP
       )}
 
       {/* Notes List */}
-      <div className="space-y-2.5 pt-2 border-t border-slate-100">
+      <div className="space-y-3 pt-2 border-t border-slate-100">
         {notes.length === 0 ? (
           <p className="text-xs text-slate-400 py-3 text-center">
             No internal notes recorded yet. Add one above.
@@ -143,26 +143,26 @@ export function LeadNotesSection({ notes, leadId, onAddNote }: LeadNotesSectionP
           notes.map((note) => (
             <div
               key={note.id}
-              className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5"
+              className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2"
             >
-              <div className="flex items-center justify-between text-[11px]">
-                <div className="flex items-center gap-1.5 font-bold text-slate-800">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 font-bold text-slate-900">
                   {note.role === "ai_system" ? (
-                    <Bot className="w-3.5 h-3.5 text-blue-600" />
+                    <Bot className="w-4 h-4 text-blue-600" />
                   ) : (
-                    <User className="w-3.5 h-3.5 text-slate-500" />
+                    <User className="w-4 h-4 text-slate-500" />
                   )}
                   <span>{note.author}</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-white border border-slate-200 text-slate-600 uppercase font-mono font-medium">
+                  <span className="text-xs px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600 uppercase font-mono font-bold">
                     {note.role}
                   </span>
                 </div>
-                <div className="flex items-center gap-1 text-slate-400 text-[10px]">
-                  <Clock className="w-3 h-3" />
+                <div className="flex items-center gap-1 text-slate-400 text-xs font-medium">
+                  <Clock className="w-3.5 h-3.5" />
                   <span>{formatDate(note.createdAt)}</span>
                 </div>
               </div>
-              <p className="text-slate-700 leading-relaxed pl-5">{note.content}</p>
+              <p className="text-slate-800 text-sm leading-relaxed pl-6 font-normal">{note.content}</p>
             </div>
           ))
         )}

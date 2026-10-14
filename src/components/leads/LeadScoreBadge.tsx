@@ -21,18 +21,18 @@ export function LeadScoreBadge({ score, size = "md" }: LeadScoreBadgeProps) {
   }
 
   const sizeClasses = {
-    sm: "px-1.5 py-0.5 text-[10px]",
-    md: "px-2 py-0.5 text-xs font-semibold",
-    lg: "px-3 py-1 text-sm font-bold",
+    sm: "px-2 py-0.5 text-xs font-bold",
+    md: "px-2.5 py-0.5 text-xs font-bold",
+    lg: "px-3.5 py-1 text-sm font-extrabold",
   }[size];
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-md border ${color} ${sizeClasses}`}
+      className={`inline-flex items-center gap-1.5 rounded-lg border ${color} ${sizeClasses}`}
       title={`Lead Score: ${score}/100 (${label})`}
     >
       <span className="font-mono">{score}</span>
-      <span className="text-[10px] opacity-75 hidden sm:inline">{label}</span>
+      <span className="text-xs opacity-85 hidden sm:inline font-semibold">{label}</span>
     </span>
   );
 }

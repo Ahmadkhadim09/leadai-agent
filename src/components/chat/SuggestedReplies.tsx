@@ -13,8 +13,8 @@ export function SuggestedReplies({ replies, onSelect, disabled }: SuggestedRepli
   if (!replies || replies.length === 0) return null;
 
   return (
-    <div className="py-2 flex flex-wrap items-center gap-1.5">
-      <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-500 mr-1">
+    <div className="py-2 flex flex-wrap items-center gap-2">
+      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mr-1">
         <Sparkles className="w-3.5 h-3.5 text-blue-600" />
         <span>Suggested:</span>
       </div>
@@ -24,7 +24,7 @@ export function SuggestedReplies({ replies, onSelect, disabled }: SuggestedRepli
           type="button"
           disabled={disabled}
           onClick={() => onSelect(reply)}
-          className="text-xs px-3 py-1 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 hover:border-blue-300 transition-all text-left disabled:opacity-50 font-medium shadow-xs"
+          className="text-xs sm:text-sm px-3.5 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 hover:border-blue-300 transition-all text-left disabled:opacity-50 font-semibold shadow-xs"
         >
           {reply}
         </button>
