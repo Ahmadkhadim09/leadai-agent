@@ -52,13 +52,32 @@ export class LocalMockAIAdapter {
       extracted.contactEmail = emailMatch[1];
     }
 
-    // Extract budget ($Xk or $X,000 or X dollars)
-    const budgetKMatch = userText.match(/\$?(\d+)\s*k\b/i);
+    // Extract budget ($Xk, $X,000, X$, budget is $X, range like $5,000 - $12,000, $30,000+)
+    const budgetRangeMatch = userText.match(/\$?\s*(\d{1,3}(?:,\d{3})*|\d+)\s*k?\s*[-–—to]+\s*\$?\s*(\d{1,3}(?:,\d{3})*|\d+)\s*(k)?/i);
+    const budgetPrefixedMatch = userText.match(/budget\s*(?:is|of|around|about|:)?\s*\$?(\d{1,3}(?:,\d{3})*|\d+)\s*(k)?/i);
+    const budgetDollarMatch = userText.match(/\$\s*(\d{1,3}(?:,\d{3})*|\d+)\s*(k)?/i);
+    const budgetSuffixDollar = userText.match(/(\d{1,3}(?:,\d{3})*|\d+)\s*\$/);
+    const budgetKMatch = userText.match(/\b(\d+)\s*k\b/i);
     const budgetFullMatch = userText.match(/\$?(\d{1,3}(?:,\d{3})+|\d+)\s*(?:dollars|usd|budget|\/year|\/yr)/i);
-    if (budgetKMatch && !extracted.annualBudgetUSD) {
-      extracted.annualBudgetUSD = parseInt(budgetKMatch[1], 10) * 1000;
-    } else if (budgetFullMatch && !extracted.annualBudgetUSD) {
-      extracted.annualBudgetUSD = parseInt(budgetFullMatch[1].replace(/,/g, ""), 10);
+
+    if (!extracted.annualBudgetUSD) {
+      if (budgetPrefixedMatch) {
+        const val = parseInt(budgetPrefixedMatch[1].replace(/,/g, ""), 10);
+        extracted.annualBudgetUSD = budgetPrefixedMatch[2] ? val * 1000 : (val < 200 ? val * 1000 : val);
+      } else if (budgetRangeMatch) {
+        const highVal = parseInt(budgetRangeMatch[2].replace(/,/g, ""), 10);
+        extracted.annualBudgetUSD = (budgetRangeMatch[3] || highVal < 200) ? highVal * 1000 : highVal;
+      } else if (budgetDollarMatch) {
+        const val = parseInt(budgetDollarMatch[1].replace(/,/g, ""), 10);
+        extracted.annualBudgetUSD = budgetDollarMatch[2] ? val * 1000 : (val < 200 ? val * 1000 : val);
+      } else if (budgetSuffixDollar) {
+        const val = parseInt(budgetSuffixDollar[1].replace(/,/g, ""), 10);
+        extracted.annualBudgetUSD = val < 200 ? val * 1000 : val;
+      } else if (budgetKMatch) {
+        extracted.annualBudgetUSD = parseInt(budgetKMatch[1], 10) * 1000;
+      } else if (budgetFullMatch) {
+        extracted.annualBudgetUSD = parseInt(budgetFullMatch[1].replace(/,/g, ""), 10);
+      }
     }
 
     // Extract company name
